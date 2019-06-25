@@ -1,4 +1,3 @@
-#from selenium.common.exceptions import (имя исключения)
 from selenium.common.exceptions import (NoSuchElementException)
 
 class BasePage(object):

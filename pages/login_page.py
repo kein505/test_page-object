@@ -48,7 +48,7 @@ class AddPage(BasePage):
         print("\nproduct_name\n", name_product)
         message_add_product= self.give_element_present(*ProductPageLocators.ADD_PRODUCT_MESSAGE).text
         print("\nmessage_add_product\n", message_add_product)
-        assert name_product in message_add_product, f"Название товара '{name_product}' в сообщении '{message_add_product}' не совпадает"
+        assert name_product == message_add_product, f"Название товара '{name_product}' в сообщении '{message_add_product}' не совпадает"
 		
     def should_be_cost_cart_message(self):
         # проверка, что есть сообщение со стоимостью корзины
@@ -56,8 +56,8 @@ class AddPage(BasePage):
 		
     def should_be_cost_cart_coincides_price_product(self):
         # проверка, что стоимость корзины совпадает с ценой товара.
-        cost_cart = self.give_element_present(*ProductPageLocators.COST_CART).text #[38:43]
+        cost_cart = self.give_element_present(*ProductPageLocators.COST_CART).text
         print("\ncost_cart", cost_cart)
-        price_product= self.give_element_present(*ProductPageLocators.PRICE_PRODUCT).text #[0:5]
+        price_product= self.give_element_present(*ProductPageLocators.PRICE_PRODUCT).text
         print("\nprice_product", price_product)
-        assert price_product in cost_cart, f"Стоимость корзины '{cost_cart}' с ценой товара '{price_product}' не совпадает"
+        assert price_product == cost_cart, f"Стоимость корзины '{cost_cart}' с ценой товара '{price_product}' не совпадает"

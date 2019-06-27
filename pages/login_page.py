@@ -62,8 +62,9 @@ class AddPage(BasePage):
         print("\nprice_product", price_product)
         assert price_product == cost_cart, f"Стоимость корзины '{cost_cart}' с ценой товара '{price_product}' не совпадает"
 		
+		#is_not_element_present: упадет, как только увидит искомый элемент. Не появился: успех, тест зеленый. 
     def should_not_be_success_message(self):
         assert self.is_not_element_present(*ProductPageLocators.SUCCESS_MESSAGE), "Success message is presented, but should not be"
-		
+		#is_disappeared будет ждать до тех пор, пока элемент не исчезнет
     def should_be_disappeared_success_message(self):
         assert self.is_disappeared(*ProductPageLocators.SUCCESS_MESSAGE), "Success message is presented, but should not be"

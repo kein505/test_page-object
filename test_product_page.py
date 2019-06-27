@@ -1,12 +1,4 @@
-'''
-1. Открываем страницу товара (http://selenium1py.pythonanywhere.com/catalogue/the-shellcoders-handbook_209/?promo=newYear). Обратите внимание, что в ссылке есть параметр "?promo=newYear". Не теряйте его в авто-тесте, чтобы получить проверочный код.
-
-2. Нажимаем на кнопку "Добавить в корзину".
-
-3. *Посчитать результат математического выражения и ввести ответ. Используйте для этого метод solve_quiz_and_get_code(), который приведен ниже. Например, можете добавить его в класс BasePage, чтобы использовать его на любой странице. Этот метод нужен только для проверки того, что вы написали тест на Selenium. После этого вы получите код, который нужно ввести в качестве ответа на данное задание. Код будет выведен в консоли интерпретатора, в котором вы запускаете тест. Не забудьте в конце теста добавить проверки на ожидаемый результат.
-'''
 from .pages.product_page import ProductPage
-from .pages.login_page import AddPage
 import pytest
 import time
 #link1="http://selenium1py.pythonanywhere.com/catalogue/the-shellcoders-handbook_209/?promo=newYear"
@@ -29,6 +21,10 @@ def test_guest_can_add_product_to_cart(browser, link):
 	login_page = page.add_product_to_cart()          # выполняем метод страницы - Нажимаем на кнопку "Добавить в корзину"
 	login_page.should_be_product_page()
 	
+	#page.add_product_to_cart()
+	#login_page = AddPage(browser, browser.current_url)
+	#login_page.should_be_product_page()
+	
 '''
 test_guest_cant_see_success_message: 
 Открываем страницу товара 
@@ -38,10 +34,8 @@ test_guest_cant_see_success_message:
 def test_guest_cant_see_success_message(browser, link):
 	page = ProductPage(browser, link)   # инициализируем Page Object, передаем конструктор экземпляр драйвера и url адрес 
 	page.open()                      # открываем страницу	
-	#see_success_page = page.add_product_to_cart()          # выполняем метод страницы - Нажимаем на кнопку "Добавить в корзину"
-	print("\nTyt see_success_page:")
-	AddPage(browser, link).should_not_be_success_message() #Проверяем, что нет сообщения об успехе с помощью is_not_element_present
-	print("\nstop see_success_page..")	
+	page.should_not_be_success() #Проверяем, что нет сообщения об успехе с помощью is_not_element_present
+
 	
 def test_guest_should_see_login_link_on_product_page(browser):
     link = "http://selenium1py.pythonanywhere.com/en-gb/catalogue/the-city-and-the-stars_95/"
@@ -54,3 +48,18 @@ def test_guest_can_go_to_login_page_from_product_page(browser):
     page = ProductPage(browser, link)
     page.open()
     page.go_to_login_page()
+
+'''
+1.Гость открывает главную страницу +
+2.Переходит в корзину по кнопке в шапке сайта +
+3.Ожидаем, что в корзине нет товаров
+4.Ожидаем, что есть текст о том что корзина пуста 
+'''	
+def test_guest_cant_see_product_in_cart_opened_from_product_page(browser):
+    link = "http://selenium1py.pythonanywhere.com/en-gb/catalogue/the-city-and-the-stars_95/"
+    page = ProductPage(browser, link)
+    page.open()
+    page.go_to_cart_page()
+    page.should_not_be_product_in_cart()
+    #cart_page = page.add_product_to_cart()          # выполняем метод страницы - Нажимаем на кнопку "Добавить в корзину"
+    #cart_page.should_not_be_product_in_cart()

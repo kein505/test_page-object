@@ -1,6 +1,7 @@
 from .base_page import BasePage
 from .locators import LoginPageLocators
 from .locators import ProductPageLocators
+from .locators import BasePageLocators
 
 
 class LoginPage(BasePage):
@@ -20,6 +21,16 @@ class LoginPage(BasePage):
     def should_be_register_form(self):
         # проверка, что есть форма регистрации на странице
         assert self.is_element_present (*LoginPageLocators.REGISTRATION_FORM), "Registration form is not presented"
+		
+    def register_new_user1(self, email, password):
+        mail = self.browser.find_element(*BasePageLocators.EMAIL_LINK)
+        mail.send_keys(email)
+        password1 = self.browser.find_element(*BasePageLocators.PASSWORD_LINK)
+        password1.send_keys(password)
+        password2 = self.browser.find_element(*BasePageLocators.CONFIRM_PASSWORD_LINK)
+        password2.send_keys(password)
+        regist_btn = self.browser.find_element(*BasePageLocators.REGISTRATION_BUTTON_LINK)
+        regist_btn.click()
 		
 class AddPage(BasePage):
     def should_be_product_page(self):
@@ -45,9 +56,7 @@ class AddPage(BasePage):
     def should_be_product_name_is_name_in_message(self):
         # проверка, что название товара в сообщении совпадает с тем товаром, который вы действительно добавили.
         name_product = self.give_element_present(*ProductPageLocators.NAME_PRODUCT).text
-        print("\nproduct_name\n", name_product)
         message_add_product= self.give_element_present(*ProductPageLocators.ADD_PRODUCT_MESSAGE).text
-        print("\nmessage_add_product\n", message_add_product)
         assert name_product == message_add_product, f"Название товара '{name_product}' в сообщении '{message_add_product}' не совпадает"
 		
     def should_be_cost_cart_message(self):
@@ -57,9 +66,7 @@ class AddPage(BasePage):
     def should_be_cost_cart_coincides_price_product(self):
         # проверка, что стоимость корзины совпадает с ценой товара.
         cost_cart = self.give_element_present(*ProductPageLocators.COST_CART).text
-        print("\ncost_cart", cost_cart)
         price_product= self.give_element_present(*ProductPageLocators.PRICE_PRODUCT).text
-        print("\nprice_product", price_product)
         assert price_product == cost_cart, f"Стоимость корзины '{cost_cart}' с ценой товара '{price_product}' не совпадает"
 		
 		#is_not_element_present: упадет, как только увидит искомый элемент. Не появился: успех, тест зеленый. 

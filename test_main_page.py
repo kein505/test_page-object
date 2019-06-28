@@ -1,5 +1,5 @@
 from .pages.main_page import MainPage
-
+import pytest
 '''
 def test_guest_can_go_to_login_page(browser): 
     link = "http://selenium1py.pythonanywhere.com/catalogue/the-shellcoders-handbook_209?promo=midsummer"   
@@ -8,13 +8,27 @@ def test_guest_can_go_to_login_page(browser):
     login_page = page.go_to_login_page()          # выполняем метод страницы - переходим на страницу логина
     login_page.should_be_login_link()
 '''
-def test_guest_can_go_to_login_link(browser):
-    link = "http://selenium1py.pythonanywhere.com"
-    page = MainPage(browser, link)
-    page.open()
-    page.go_to_login_page()
-    page.should_be_login_link()
 
+	
+@pytest.mark.login_guest
+class TestLoginFromMainPage(object):
+    # не забываем передать первым аргументом self                       
+    def test_guest_can_go_to_login_link(self, browser):     
+        link = "http://selenium1py.pythonanywhere.com"
+        page = MainPage(browser, link)
+        page.open()
+        print("\n test_guest_can_go_to_login_link")
+        page.go_to_login_page()
+        page.should_be_login_link()
+
+    def test_guest_should_see_login_link(self, browser):
+        link = "http://selenium1py.pythonanywhere.com"
+        page = MainPage(browser, link)
+        page.open()
+        print("\n test_guest_should_see_login_link")
+        page.should_be_login_link()
+
+	
 '''
 1.Гость открывает главную страницу +
 2.Переходит в корзину по кнопке в шапке сайта +
@@ -25,5 +39,6 @@ def test_guest_cant_see_product_in_cart_opened_from_main_page(browser):
     link = "http://selenium1py.pythonanywhere.com/en-gb/catalogue/the-city-and-the-stars_95/"
     page = MainPage(browser, link)
     page.open()
+    print("\n test_guest_cant_see_product_in_cart_opened_from_main_page")
     page.go_to_cart_page()
     page.should_not_be_product_in_cart() #Проверяем, что в корзине нет товара
